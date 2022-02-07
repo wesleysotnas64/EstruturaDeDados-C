@@ -8,7 +8,8 @@ struct no{
 };
 
 
-NO *criaNO(int chave);
+NO *criaNO(int chave); //1 - Existe | 2 - Não existe
+int buscar(int chave, NO *ptInicio);
 void addNO(int chave, NO **ptInicio);
 
 void imprimeLista(NO *ptInicio);
@@ -32,6 +33,16 @@ NO *criaNO(int chave){
     novo->prox  = NULL;
 
     return novo;
+}
+
+int buscar(int chave, NO *ptInicio){
+    if(ptInicio != NULL){
+        if(ptInicio->chave == chave) return 1;
+        else return buscar(chave, ptInicio->prox);
+    } else{
+        printf("Não encontrado!\n");
+        return 0;
+    } 
 }
 
 void addNO(int chave, NO **ptInicio){ // Add Inicio - O(1)
