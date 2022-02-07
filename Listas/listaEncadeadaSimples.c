@@ -10,20 +10,25 @@ struct no{
 
 NO *criaNO(int chave); //1 - Existe | 2 - Não existe
 int buscar(int chave, NO *ptInicio);
-void addNO(int chave, NO **ptInicio);
+void addNOInicio(int chave, NO **ptInicio, NO **ptFim);
+void addNOFim(int chave, NO **ptInicio, NO **ptFim);
 
 void imprimeLista(NO *ptInicio);
 
 int main(){
 
     NO *ptInicio = NULL;
+    NO *ptFim    = NULL;
 
     //printf("%d\n", buscar(42, ptInicio)); 
 
-    addNO(10, &ptInicio);
-    addNO(42, &ptInicio);
+    addNOInicio(10, &ptInicio, &ptFim);
+    addNOInicio(42, &ptInicio, &ptFim);
 
-    addNO(10, &ptInicio);
+    addNOInicio(10, &ptInicio, &ptFim);
+
+    addNOFim(10, &ptInicio, &ptFim);
+    addNOFim(15, &ptInicio, &ptFim);
 
     imprimeLista(ptInicio);
 
@@ -51,14 +56,34 @@ int buscar(int chave, NO *ptInicio){
     } 
 }
 
-void addNO(int chave, NO **ptInicio){ // Add Inicio - O(1)
+void addNOInicio(int chave, NO **ptInicio, NO **ptFim){ // Add Inicio - O(1)
     printf("ADD_INICIO. CHAVE = %d\n", chave);
     if(buscar(chave, (*ptInicio)) == 0){
         NO **no  = malloc(sizeof(NO*));
         (*no) = criaNO(chave);
 
+        //Direcionando o ponteiro fim. Caso seja o primeiro elemento.
+        if((*ptInicio) == NULL && (*ptFim) == NULL) (*ptFim) = (*no);
+
         (*no)->prox = (*ptInicio);
         (*ptInicio) = (*no);
+
+        printf("Chave %d adicionada!\n", chave);
+    } else printf("Chave %d existe! Não adicionado!\n", chave);
+    printf("-----------------------\n");
+}
+
+void addNOFim(int chave, NO **ptInicio, NO **ptFim){ // Add Fim - O(1)
+    printf("ADD_FIM. CHAVE = %d\n", chave);
+    if(buscar(chave, (*ptInicio)) == 0){
+        NO **no  = malloc(sizeof(NO*));
+        (*no) = criaNO(chave);
+
+        //Direcionando o ponteiro inicio. Caso seja o primeiro elemento.
+        if((*ptInicio) == NULL && (*ptFim) == NULL) (*ptInicio) = (*no);
+
+        (*ptFim)->prox = (*no);
+        (*ptFim)       = (*no);
 
         printf("Chave %d adicionada!\n", chave);
     } else printf("Chave %d existe! Não adicionado!\n", chave);
