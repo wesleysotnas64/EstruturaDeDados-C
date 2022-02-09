@@ -8,10 +8,11 @@ struct no{
 };
 
 
-NO *criaNO(int chave); //1 - Existe | 2 - Não existe
-int buscar(int chave, NO *ptInicio);
+NO *criaNO(int chave); 
+int buscar(int chave, NO *ptInicio); //1 - Existe | 2 - Não existe
 void addNOInicio(int chave, NO **ptInicio, NO **ptFim);
 void addNOFim(int chave, NO **ptInicio, NO **ptFim);
+void rmvNOInicio(NO **ptInicio, NO **ptFim);
 
 void imprimeLista(NO *ptInicio);
 
@@ -20,19 +21,25 @@ int main(){
     NO *ptInicio = NULL;
     NO *ptFim    = NULL;
 
-    //printf("%d\n", buscar(42, ptInicio)); 
+    rmvNOInicio(&ptInicio, &ptFim);
 
     addNOInicio(10, &ptInicio, &ptFim);
-    addNOInicio(42, &ptInicio, &ptFim);
-
-    addNOInicio(10, &ptInicio, &ptFim);
-
-    addNOFim(10, &ptInicio, &ptFim);
-    addNOFim(15, &ptInicio, &ptFim);
-
     imprimeLista(ptInicio);
 
-    //printf("%d\n", buscar(42, ptInicio)); 
+    addNOInicio(42, &ptInicio, &ptFim);
+    imprimeLista(ptInicio);
+
+    addNOInicio(10, &ptInicio, &ptFim);
+    imprimeLista(ptInicio);
+
+    addNOFim(10, &ptInicio, &ptFim);
+    imprimeLista(ptInicio);
+
+    addNOFim(15, &ptInicio, &ptFim);
+    imprimeLista(ptInicio);
+
+    rmvNOInicio(&ptInicio, &ptFim);
+    imprimeLista(ptInicio);
 
     return 0;
 }
@@ -88,6 +95,31 @@ void addNOFim(int chave, NO **ptInicio, NO **ptFim){ // Add Fim - O(1)
         printf("Chave %d adicionada!\n", chave);
     } else printf("Chave %d existe! Não adicionado!\n", chave);
     printf("-----------------------\n");
+}
+
+void rmvNOInicio(NO **ptInicio, NO **ptFim){
+    if(*ptInicio != NULL){
+        printf("RMV_INICIO. CHAVE = %d\n", (*ptInicio)->chave);
+
+        NO *lixo;
+        lixo = (*ptInicio);
+        
+        if((*ptInicio) == (*ptFim)){ //Se existir apenas um elemento para ser removido
+            (*ptInicio) = NULL;
+            (*ptFim) = NULL;
+        }  else (*ptInicio) = (*ptInicio)->prox;
+
+
+        int miniBuff = lixo->chave;
+        free(lixo);
+
+        printf("Chave %d removida!\n", miniBuff);
+        printf("-----------------------\n");
+    } else{
+        printf("RMV_INICIO FALHOU! Lista vazia!\n");
+        printf("-----------------------\n");
+    } 
+    
 }
 
 void imprimeLista(NO *ptInicio){ //Lista elementos - O(n)
