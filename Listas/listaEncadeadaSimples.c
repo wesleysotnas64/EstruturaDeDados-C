@@ -7,13 +7,13 @@ struct no{
     NO  *prox;
 };
 
-
 NO *criaNO(int chave); 
 int buscar(int chave, NO *ptInicio); //1 - Existe | 2 - Não existe
 void addNOInicio(int chave, NO **ptInicio, NO **ptFim);
 void addNOFim(int chave, NO **ptInicio, NO **ptFim);
 void rmvNOInicio(NO **ptInicio, NO **ptFim);
 void rmvNOFim(NO **ptInicio, NO **ptFim);
+void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim);
 
 void imprimeLista(NO *ptInicio);
 
@@ -47,7 +47,6 @@ int main(){
 
     rmvNOFim(&ptInicio, &ptFim);
     imprimeLista(ptInicio);
-
 
     rmvNOFim(&ptInicio, &ptFim);
     imprimeLista(ptInicio);
@@ -139,7 +138,7 @@ void rmvNOInicio(NO **ptInicio, NO **ptFim){
     
 }
 
-void rmvNOFim(NO **ptInicio, NO **ptFim){
+void rmvNOFim(NO **ptInicio, NO **ptFim){//O(n) pois tem que referenciar o penultimo
     if((*ptFim) != NULL){
         printf("RMV_FIM. CHAVE = %d\n", (*ptInicio)->chave);
 
@@ -171,6 +170,33 @@ void rmvNOFim(NO **ptInicio, NO **ptFim){
         printf("RMV_INICIO FALHOU! Lista vazia!\n");
         printf("-----------------------\n");
     } 
+}
+
+void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim){ //O(n)
+    if((*ptInicio) !=  NULL){
+        printf("RMV_MEIO. CHAVE = %d\n", chave);
+
+        NO *aux;
+        aux = (*ptInicio);
+
+        NO *lixo;
+        while(1){
+            if(aux->prox->chave == chave){
+                lixo = aux->prox;
+                aux->prox = aux->prox->prox;
+                break;
+            } else aux = aux->prox;
+        }
+
+        int miniBuff = lixo->chave;
+        free(lixo);
+
+        printf("Chave %d removida!\n", miniBuff);
+        printf("-----------------------\n");
+    } else{
+        printf("RMV_MEIO FALHOU! Lista vazia!\n");
+        printf("-----------------------\n");
+    }
 }
 
 void imprimeLista(NO *ptInicio){ //Lista elementos - O(n)
