@@ -38,7 +38,7 @@ int main(){
     addNOInicio(99, &ptInicio, &ptFim);
     imprimeLista(ptInicio);
 
-    rmv(10, &ptInicio, &ptFim);
+    rmv(11, &ptInicio, &ptFim);
     imprimeLista(ptInicio);
 
     return 0;
@@ -116,7 +116,7 @@ void rmvNOInicio(NO **ptInicio, NO **ptFim){
         printf("Chave %d removida!\n", miniBuff);
         printf("-----------------------\n");
     } else{
-        printf("RMV_INICIO FALHOU! Lista vazia!\n");
+        printf("RMV_INICIO FALHOU!\n");
         printf("-----------------------\n");
     } 
     
@@ -151,7 +151,7 @@ void rmvNOFim(NO **ptInicio, NO **ptFim){//O(n) pois tem que referenciar o penul
         printf("Chave %d removida!\n", miniBuff);
         printf("-----------------------\n");
     } else{
-        printf("RMV_INICIO FALHOU! Lista vazia!\n");
+        printf("RMV_INICIO FALHOU!\n");
         printf("-----------------------\n");
     } 
 }
@@ -160,25 +160,32 @@ void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim){ //O(n)
     if((*ptInicio) !=  NULL){
         printf("RMV_MEIO. CHAVE = %d\n", chave);
 
-        NO *aux;
-        aux = (*ptInicio);
+        //Verificar se a chave existe
+        if(buscar(chave, (*ptInicio)) == 1){
+            NO *aux;
+            aux = (*ptInicio);
 
-        NO *lixo;
-        while(1){
-            if(aux->prox->chave == chave){
-                lixo = aux->prox;
-                aux->prox = aux->prox->prox;
-                break;
-            } else aux = aux->prox;
+            NO *lixo;
+            while(1){
+                if(aux->prox->chave == chave){
+                    lixo = aux->prox;
+                    aux->prox = aux->prox->prox;
+                    break;
+                } else aux = aux->prox;
+            }
+
+            int miniBuff = lixo->chave;
+            free(lixo);
+
+            printf("Chave %d removida!\n", miniBuff);
+            printf("-----------------------\n");
+        } else{
+            printf("RMV_MEIO FALHOU!\n");
+            printf("-----------------------\n");
         }
-
-        int miniBuff = lixo->chave;
-        free(lixo);
-
-        printf("Chave %d removida!\n", miniBuff);
-        printf("-----------------------\n");
+        
     } else{
-        printf("RMV_MEIO FALHOU! Lista vazia!\n");
+        printf("RMV_MEIO FALHOU!\n");
         printf("-----------------------\n");
     }
 }
