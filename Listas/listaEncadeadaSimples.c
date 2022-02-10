@@ -14,6 +14,7 @@ void addNOFim(int chave, NO **ptInicio, NO **ptFim);
 void rmvNOInicio(NO **ptInicio, NO **ptFim);
 void rmvNOFim(NO **ptInicio, NO **ptFim);
 void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim);
+void rmv(int chave, NO **ptInicio, NO **ptFim);
 
 void imprimeLista(NO *ptInicio);
 
@@ -21,8 +22,6 @@ int main(){
 
     NO *ptInicio = NULL;
     NO *ptFim    = NULL;
-
-    rmvNOInicio(&ptInicio, &ptFim);
 
     addNOInicio(10, &ptInicio, &ptFim);
     imprimeLista(ptInicio);
@@ -33,28 +32,13 @@ int main(){
     addNOInicio(10, &ptInicio, &ptFim);
     imprimeLista(ptInicio);
 
-    addNOFim(10, &ptInicio, &ptFim);
-    imprimeLista(ptInicio);
-
     addNOFim(15, &ptInicio, &ptFim);
-    imprimeLista(ptInicio);
-
-    rmvNOInicio(&ptInicio, &ptFim);
     imprimeLista(ptInicio);
 
     addNOInicio(99, &ptInicio, &ptFim);
     imprimeLista(ptInicio);
 
-    rmvNOFim(&ptInicio, &ptFim);
-    imprimeLista(ptInicio);
-
-    rmvNOFim(&ptInicio, &ptFim);
-    imprimeLista(ptInicio);
-
-    rmvNOFim(&ptInicio, &ptFim);
-    imprimeLista(ptInicio);
-
-    rmvNOFim(&ptInicio, &ptFim);
+    rmv(10, &ptInicio, &ptFim);
     imprimeLista(ptInicio);
 
     return 0;
@@ -197,6 +181,12 @@ void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim){ //O(n)
         printf("RMV_MEIO FALHOU! Lista vazia!\n");
         printf("-----------------------\n");
     }
+}
+
+void rmv(int chave, NO **ptInicio, NO **ptFim){
+    if(chave == (*ptInicio)->chave) rmvNOInicio(&(*ptInicio), &(*ptFim));
+    else if(chave == (*ptFim)->chave) rmvNOFim(&(*ptInicio), &(*ptFim));
+    else rmvNOMeio(chave, &(*ptInicio), &(*ptFim));
 }
 
 void imprimeLista(NO *ptInicio){ //Lista elementos - O(n)
