@@ -17,6 +17,7 @@ void rmvNOInicio(NO **ptInicio, NO **ptFim);
 void rmvNOFim(NO **ptInicio, NO **ptFim);
 void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim);
 void rmv(int chave, NO **ptInicio, NO **ptFim);
+void rmvPosicao(int posicao, NO **ptInicio, NO **ptFim);
 void imprimeLista(NO *ptInicio);
 
 int main(){
@@ -31,14 +32,12 @@ int main(){
     addNOInicio(15, &ptInicio, &ptFim);
 
     imprimeLista(ptInicio);
+    printf("Tamanho: %d\n", tamanho(ptInicio));
 
-    addNOFim(20, &ptInicio, &ptFim);
-    imprimeLista(ptInicio);
-    printf("Tamanho: %d\n", tamanho(ptInicio));
+    rmvPosicao(1, &ptInicio, &ptFim);
     
-    addNOMeio(99, 4, &ptInicio, &ptFim);
+
     imprimeLista(ptInicio);
-    printf("Tamanho: %d\n", tamanho(ptInicio));
 
     return 0;
 }
@@ -159,7 +158,7 @@ void rmvNOInicio(NO **ptInicio, NO **ptFim){
 void rmvNOFim(NO **ptInicio, NO **ptFim){//O(n) pois tem que referenciar o penultimo
     printf("-----------------------\n");
     if((*ptFim) != NULL){
-        printf("RMV_FIM. CHAVE = %d\n", (*ptInicio)->chave);
+        printf("RMV_FIM. CHAVE = %d\n", (*ptFim)->chave);
 
         NO *lixo;
         lixo = (*ptFim);
@@ -230,6 +229,30 @@ void rmv(int chave, NO **ptInicio, NO **ptFim){
     if(chave == (*ptInicio)->chave) rmvNOInicio(&(*ptInicio), &(*ptFim));
     else if(chave == (*ptFim)->chave) rmvNOFim(&(*ptInicio), &(*ptFim));
     else rmvNOMeio(chave, &(*ptInicio), &(*ptFim));
+}
+
+void rmvPosicao(int posicao, NO **ptInicio, NO **ptFim){
+    printf("-----------------------\n");
+    printf("RMV_POSICAO = %d\n", posicao);
+    if(posicao <= 0) rmvNOInicio(&(*ptInicio), &(*ptFim));
+    else if(posicao >= tamanho((*ptInicio))-1) rmvNOFim(&(*ptInicio), &(*ptFim));
+    else{
+        
+        NO *lixo  = NULL;
+        NO *ptAux = (*ptInicio);
+
+        for(int i = 0; i < posicao-2; i++) ptAux = ptAux->prox;
+        
+        lixo = ptAux->prox;
+        ptAux->prox = ptAux->prox->prox;
+
+        int miniBuff = lixo->chave;
+
+        free(lixo);
+
+        printf("CHAVE %d REMOVINA DA POSICAO %d\n", miniBuff, posicao);
+        printf("-----------------------\n");
+    }
 }
 
 void imprimeLista(NO *ptInicio){ //Lista elementos - O(n)
