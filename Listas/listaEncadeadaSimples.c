@@ -8,14 +8,15 @@ struct no{
 };
 
 NO *criaNO(int chave); 
+int tamanho(NO *ptInicio);
 int buscar(int chave, NO *ptInicio); //1 - Existe | 2 - Não existe
 void addNOInicio(int chave, NO **ptInicio, NO **ptFim);
 void addNOFim(int chave, NO **ptInicio, NO **ptFim);
+void addNOMeio(int chave, int posicao, NO **ptInicio, NO **ptFim);
 void rmvNOInicio(NO **ptInicio, NO **ptFim);
 void rmvNOFim(NO **ptInicio, NO **ptFim);
 void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim);
 void rmv(int chave, NO **ptInicio, NO **ptFim);
-
 void imprimeLista(NO *ptInicio);
 
 int main(){
@@ -23,23 +24,21 @@ int main(){
     NO *ptInicio = NULL;
     NO *ptFim    = NULL;
 
-    addNOInicio(10, &ptInicio, &ptFim);
-    imprimeLista(ptInicio);
-
-    addNOInicio(42, &ptInicio, &ptFim);
-    imprimeLista(ptInicio);
+    printf("Tamanho: %d\n", tamanho(ptInicio));
 
     addNOInicio(10, &ptInicio, &ptFim);
+    addNOInicio(13, &ptInicio, &ptFim);
+    addNOInicio(15, &ptInicio, &ptFim);
+
     imprimeLista(ptInicio);
 
-    addNOFim(15, &ptInicio, &ptFim);
+    addNOFim(20, &ptInicio, &ptFim);
     imprimeLista(ptInicio);
-
-    addNOInicio(99, &ptInicio, &ptFim);
+    printf("Tamanho: %d\n", tamanho(ptInicio));
+    
+    addNOMeio(99, 4, &ptInicio, &ptFim);
     imprimeLista(ptInicio);
-
-    rmv(11, &ptInicio, &ptFim);
-    imprimeLista(ptInicio);
+    printf("Tamanho: %d\n", tamanho(ptInicio));
 
     return 0;
 }
@@ -53,6 +52,11 @@ NO *criaNO(int chave){
     return novo;
 }
 
+int tamanho(NO *ptInicio){
+    if(ptInicio == NULL) return 0;
+    else return 1 + tamanho(ptInicio->prox);
+}
+
 int buscar(int chave, NO *ptInicio){
     if(ptInicio != NULL){
         if(ptInicio->chave == chave) return 1;
@@ -64,6 +68,7 @@ int buscar(int chave, NO *ptInicio){
 }
 
 void addNOInicio(int chave, NO **ptInicio, NO **ptFim){ // Add Inicio - O(1)
+    printf("-----------------------\n");
     printf("ADD_INICIO. CHAVE = %d\n", chave);
     if(buscar(chave, (*ptInicio)) == 0){
         NO **no  = malloc(sizeof(NO*));
@@ -81,6 +86,7 @@ void addNOInicio(int chave, NO **ptInicio, NO **ptFim){ // Add Inicio - O(1)
 }
 
 void addNOFim(int chave, NO **ptInicio, NO **ptFim){ // Add Fim - O(1)
+    printf("-----------------------\n");
     printf("ADD_FIM. CHAVE = %d\n", chave);
     if(buscar(chave, (*ptInicio)) == 0){
         NO **no  = malloc(sizeof(NO*));
@@ -97,7 +103,35 @@ void addNOFim(int chave, NO **ptInicio, NO **ptFim){ // Add Fim - O(1)
     printf("-----------------------\n");
 }
 
+void addNOMeio(int chave, int posicao, NO **ptInicio, NO **ptFim){//O(n). Caso médio = O(n/2) = O(n)
+    printf("-----------------------\n");
+    printf("ADD_MEIO. CHAVE = %d\n", chave);
+    printf("POSICAO: %d\n", posicao);
+    if(buscar(chave, (*ptInicio)) == 0){
+
+        int tamanhoLista = tamanho((*ptInicio));
+
+        if(posicao <= 0) addNOInicio(chave, &(*ptInicio), &(*ptFim));
+        else if(posicao >= tamanhoLista) addNOFim(chave, &(*ptInicio), &(*ptFim));
+        else{
+            NO **no = malloc(sizeof(NO*));
+            (*no) = criaNO(chave);
+
+            //Procura a posicao. Posição da lista inicia em '0', como em um vetor.
+            NO  *ptAux = (*ptInicio);
+            for(int i = 0; i < posicao-1; i++) ptAux = ptAux->prox;
+            
+            (*no)->prox = ptAux->prox;
+            ptAux->prox = (*no);
+            printf("Chave %d adicionada!\n", chave);
+        }
+
+    } else printf("Chave %d existe! Não adicionado!\n", chave);
+    printf("-----------------------\n");
+}
+
 void rmvNOInicio(NO **ptInicio, NO **ptFim){
+    printf("-----------------------\n");
     if((*ptInicio) != NULL){
         printf("RMV_INICIO. CHAVE = %d\n", (*ptInicio)->chave);
 
@@ -123,6 +157,7 @@ void rmvNOInicio(NO **ptInicio, NO **ptFim){
 }
 
 void rmvNOFim(NO **ptInicio, NO **ptFim){//O(n) pois tem que referenciar o penultimo
+    printf("-----------------------\n");
     if((*ptFim) != NULL){
         printf("RMV_FIM. CHAVE = %d\n", (*ptInicio)->chave);
 
@@ -157,6 +192,7 @@ void rmvNOFim(NO **ptInicio, NO **ptFim){//O(n) pois tem que referenciar o penul
 }
 
 void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim){ //O(n)
+    printf("-----------------------\n");
     if((*ptInicio) !=  NULL){
         printf("RMV_MEIO. CHAVE = %d\n", chave);
 

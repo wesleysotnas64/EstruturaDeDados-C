@@ -16,8 +16,6 @@ int main(){
     NO *ptInicio;
     NO *ptFim;
 
-
-
     return 0;
 }
 
@@ -26,6 +24,7 @@ NO *criaNO(int chave){
 
     novo->chave = chave;
     novo->prox  = NULL;
+    novo->ante  = NULL;
 
     return novo;
 }
