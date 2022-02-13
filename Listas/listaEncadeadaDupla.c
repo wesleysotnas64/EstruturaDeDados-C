@@ -14,7 +14,8 @@ int buscar(int chave, NO *ptInicio); //1 - Existe | 2 - Não existe
 void addNOInicio(int chave, NO **ptInicio, NO **ptFim);
 void addNOFim(int chave, NO **ptInicio, NO **ptFim);
 void addNOMeio(int chave, int posicao, NO **ptInicio, NO **ptFim);
-
+void rmvNOInicio(NO **ptInicio, NO **ptFim);
+void rmvNOFim(NO **ptInicio, NO **ptFim);
 void imprimeListaIterativa(NO *ptInicio);
 
 int main(){
@@ -30,6 +31,12 @@ int main(){
     addNOFim   (98, &ptInicio, &ptFim);
     addNOFim   (15, &ptInicio, &ptFim);
     addNOMeio  (37, 3, &ptInicio, &ptFim);
+
+    imprimeListaIterativa(ptInicio);
+    printf("Tamanho: %d\n", tamanho(ptInicio));
+
+    rmvNOInicio(&ptInicio, &ptFim);
+    rmvNOFim(&ptInicio, &ptFim);
 
     imprimeListaIterativa(ptInicio);
     printf("Tamanho: %d\n", tamanho(ptInicio));
@@ -101,8 +108,6 @@ void addNOFim(int chave, NO **ptInicio, NO **ptFim){ // Add Fim - O(1)
             (*ptFim)       = (*no);
         }
 
-        
-
         printf("Chave %d adicionada!\n", chave);
     } else printf("Chave %d existe! Não adicionado!\n", chave);
     printf("-----------------------\n");
@@ -135,6 +140,63 @@ void addNOMeio(int chave, int posicao, NO **ptInicio, NO **ptFim){//O(n). Caso m
 
     } else printf("Chave %d existe! Não adicionado!\n", chave);
     printf("-----------------------\n");
+}
+
+void rmvNOInicio(NO **ptInicio, NO **ptFim){//O(1)
+    printf("-----------------------\n");
+    if((*ptInicio) != NULL){
+        printf("RMV_INICIO. CHAVE = %d\n", (*ptInicio)->chave);
+
+        NO *lixo;
+        lixo = (*ptInicio);
+        
+        if((*ptInicio) == (*ptFim)){ //Se existir apenas um elemento para ser removido
+            (*ptInicio) = NULL;
+            (*ptFim) = NULL;
+        }  else{
+            (*ptInicio) = (*ptInicio)->prox;
+            (*ptInicio)->ante = NULL;
+        } 
+
+
+        int miniBuff = lixo->chave;
+        free(lixo);
+
+        printf("Chave %d removida!\n", miniBuff);
+        printf("-----------------------\n");
+    } else{
+        printf("RMV_INICIO FALHOU!\n");
+        printf("-----------------------\n");
+    } 
+    
+}
+
+void rmvNOFim(NO **ptInicio, NO **ptFim){//O(1) pois há o ptAntes
+    printf("-----------------------\n");
+    if((*ptFim) != NULL){
+        printf("RMV_FIM. CHAVE = %d\n", (*ptFim)->chave);
+
+        NO *lixo;
+        lixo = (*ptFim);
+        
+        if((*ptInicio) == (*ptFim)){ //Se existir apenas um elemento para ser removido
+            (*ptInicio) = NULL;
+            (*ptFim) = NULL;
+        }  else{
+            (*ptFim) = (*ptFim)->ante;
+            (*ptFim)->prox = NULL;
+        } 
+
+
+        int miniBuff = lixo->chave;
+        free(lixo);
+
+        printf("Chave %d removida!\n", miniBuff);
+        printf("-----------------------\n");
+    } else{
+        printf("RMV_FIM FALHOU!\n");
+        printf("-----------------------\n");
+    } 
 }
 
 void imprimeListaIterativa(NO *ptInicio){ //O(n)

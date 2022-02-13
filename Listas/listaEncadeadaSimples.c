@@ -195,6 +195,7 @@ void rmvNOFim(NO **ptInicio, NO **ptFim){//O(n) pois tem que referenciar o penul
     } 
 }
 
+//Remove o primeiro 'NO' com a chave igual
 void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim){ //O(n)
     printf("-----------------------\n");
     if((*ptInicio) !=  NULL){
