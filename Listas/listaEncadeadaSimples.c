@@ -9,36 +9,41 @@ struct no{
 
 NO *criaNO(int chave); 
 int tamanho(NO *ptInicio);
-int buscar(int chave, NO *ptInicio); //1 - Existe | 2 - Não existe
+int buscar      (int chave, NO *ptInicio); //1 - Existe | 2 - Não existe
 void addNOInicio(int chave, NO **ptInicio, NO **ptFim);
-void addNOFim(int chave, NO **ptInicio, NO **ptFim);
-void addNOMeio(int chave, int posicao, NO **ptInicio, NO **ptFim);
+void addNOFim   (int chave, NO **ptInicio, NO **ptFim);
+void addNOMeio  (int chave, int posicao, NO **ptInicio, NO **ptFim);
 void rmvNOInicio(NO **ptInicio, NO **ptFim);
-void rmvNOFim(NO **ptInicio, NO **ptFim);
-void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim);
-void rmv(int chave, NO **ptInicio, NO **ptFim);
-void rmvPosicao(int posicao, NO **ptInicio, NO **ptFim);
-void imprimeLista(NO *ptInicio);
+void rmvNOFim   (NO **ptInicio, NO **ptFim);
+void rmvNOMeio  (int chave, NO **ptInicio, NO **ptFim);
+void rmv        (int chave, NO **ptInicio, NO **ptFim);
+void rmvPosicao (int posicao, NO **ptInicio, NO **ptFim);
+void imprimeListaRecursiva(NO *ptInicio);
+void imprimeListaIterativa(NO *ptInicio);
 
 int main(){
-
+/*
     NO *ptInicio = NULL;
     NO *ptFim    = NULL;
 
-    printf("Tamanho: %d\n", tamanho(ptInicio));
-
     addNOInicio(10, &ptInicio, &ptFim);
-    addNOInicio(13, &ptInicio, &ptFim);
-    addNOInicio(15, &ptInicio, &ptFim);
+    addNOInicio(17, &ptInicio, &ptFim);
+    addNOInicio(99, &ptInicio, &ptFim);
+    addNOInicio(72, &ptInicio, &ptFim);
+    addNOFim   (42, &ptInicio, &ptFim);
+    addNOMeio  (37, 3, &ptInicio, &ptFim);
 
-    imprimeLista(ptInicio);
+    imprimeListaIterativa(ptInicio);
     printf("Tamanho: %d\n", tamanho(ptInicio));
 
-    rmvPosicao(1, &ptInicio, &ptFim);
-    
+    rmvPosicao (3, &ptInicio, &ptFim);
+    rmvNOInicio(&ptInicio, &ptFim);
+    rmvNOFim   (&ptInicio, &ptFim);
+    rmvNOMeio  (37, &ptInicio, &ptFim);
 
-    imprimeLista(ptInicio);
-
+    imprimeListaRecursiva(ptInicio);
+    printf("Tamanho: %d\n", tamanho(ptInicio));
+*/
     return 0;
 }
 
@@ -56,7 +61,7 @@ int tamanho(NO *ptInicio){
     else return 1 + tamanho(ptInicio->prox);
 }
 
-int buscar(int chave, NO *ptInicio){
+int buscar(int chave, NO *ptInicio){ //O(n)
     if(ptInicio != NULL){
         if(ptInicio->chave == chave) return 1;
         else return buscar(chave, ptInicio->prox);
@@ -129,7 +134,7 @@ void addNOMeio(int chave, int posicao, NO **ptInicio, NO **ptFim){//O(n). Caso m
     printf("-----------------------\n");
 }
 
-void rmvNOInicio(NO **ptInicio, NO **ptFim){
+void rmvNOInicio(NO **ptInicio, NO **ptFim){//O(1)
     printf("-----------------------\n");
     if((*ptInicio) != NULL){
         printf("RMV_INICIO. CHAVE = %d\n", (*ptInicio)->chave);
@@ -255,9 +260,33 @@ void rmvPosicao(int posicao, NO **ptInicio, NO **ptFim){
     }
 }
 
-void imprimeLista(NO *ptInicio){ //Lista elementos - O(n)
+void imprimeListaRecursiva(NO *ptInicio){
     if(ptInicio != NULL){
         printf("[%d]\n", ptInicio->chave);
-        if(ptInicio->prox !=NULL) imprimeLista(ptInicio->prox);
+        if(ptInicio->prox !=NULL) imprimeListaRecursiva(ptInicio->prox);
     } else printf("Fim da lista...\n");
+}
+
+void imprimeListaIterativa(NO *ptInicio){ //O(n)
+    NO *ptAux = ptInicio;
+
+    if(ptAux == NULL){
+        printf("NULL <- ptInicio <- ptFim\n");
+    } else{
+        if(tamanho(ptAux) == 1){
+            printf("[%d] <- ptInicio <- ptFim\n", ptAux->chave);
+        } else{
+            printf("[%d] <- Inicio\n", ptAux->chave);
+            while(1){
+                if(ptAux->prox->prox == NULL){
+                    ptAux = ptAux->prox;
+                    break;
+                } else{
+                    ptAux = ptAux->prox;
+                    printf("[%d]\n", ptAux->chave);
+                }
+            }
+            printf("[%d] <- ptFim\n", ptAux->chave);
+        }
+    }
 }
