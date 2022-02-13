@@ -270,12 +270,10 @@ void imprimeListaRecursiva(NO *ptInicio){
 void imprimeListaIterativa(NO *ptInicio){ //O(n)
     NO *ptAux = ptInicio;
 
-    if(ptAux == NULL){
-        printf("NULL <- ptInicio <- ptFim\n");
-    } else{
-        if(tamanho(ptAux) == 1){
-            printf("[%d] <- ptInicio <- ptFim\n", ptAux->chave);
-        } else{
+    if(ptAux == NULL) printf("NULL <- ptInicio <- ptFim\n");
+    else{
+        if(tamanho(ptAux) == 1) printf("[%d] <- ptInicio <- ptFim\n", ptAux->chave);
+        else{
             printf("[%d] <- Inicio\n", ptAux->chave);
             while(1){
                 if(ptAux->prox->prox == NULL){
