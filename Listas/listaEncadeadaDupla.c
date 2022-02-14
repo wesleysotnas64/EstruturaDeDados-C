@@ -18,7 +18,9 @@ void rmvNOInicio(NO **ptInicio, NO **ptFim);
 void rmvNOFim(NO **ptInicio, NO **ptFim);
 void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim);
 void rmv(int chave, NO **ptInicio, NO **ptFim);
+void rmvPosicao(int posicao, NO **ptInicio, NO **ptFim);
 void imprimeListaIterativa(NO *ptInicio);
+void imprimeListaRecursiva(NO *ptInicio);
 
 int main(){
 
@@ -38,9 +40,14 @@ int main(){
     printf("Tamanho: %d\n", tamanho(ptInicio));
 
     rmvNOInicio(&ptInicio, &ptFim);
+    imprimeListaRecursiva(ptInicio);
     rmvNOFim(&ptInicio, &ptFim);
+    imprimeListaRecursiva(ptInicio);
     rmvNOMeio(42, &ptInicio, &ptFim);
+    imprimeListaRecursiva(ptInicio);
     rmv(99, &ptInicio, &ptFim);
+    imprimeListaRecursiva(ptInicio);
+    rmvPosicao(3, &ptInicio, &ptFim);
 
     imprimeListaIterativa(ptInicio);
     printf("Tamanho: %d\n", tamanho(ptInicio));
@@ -246,6 +253,32 @@ void rmv(int chave, NO **ptInicio, NO **ptFim){
     else rmvNOMeio(chave, &(*ptInicio), &(*ptFim));
 }
 
+void rmvPosicao(int posicao, NO **ptInicio, NO **ptFim){
+    printf("-----------------------\n");
+    printf("RMV_POSICAO = %d\n", posicao);
+    if(posicao <= 0) rmvNOInicio(&(*ptInicio), &(*ptFim));
+    else if(posicao >= tamanho((*ptInicio))-1) rmvNOFim(&(*ptInicio), &(*ptFim));
+    else{
+        
+        NO *lixo  = NULL;
+        NO *ptAux = (*ptInicio);
+
+        //pode parar em cima da posição, pois tem referẽncia dos dois lados.
+        for(int i = 0; i < posicao; i++) ptAux = ptAux->prox;
+        
+        lixo = ptAux;
+        lixo->ante->prox = lixo->prox;
+        lixo->prox->ante = lixo->ante;
+
+        int miniBuff = lixo->chave;
+
+        free(lixo);
+
+        printf("CHAVE %d REMOVINA DA POSICAO %d\n", miniBuff, posicao);
+        printf("-----------------------\n");
+    }
+}
+
 void imprimeListaIterativa(NO *ptInicio){ //O(n)
     NO *ptAux = ptInicio;
 
@@ -266,4 +299,11 @@ void imprimeListaIterativa(NO *ptInicio){ //O(n)
             printf("[%d] <- ptFim\n", ptAux->chave);
         }
     }
+}
+
+void imprimeListaRecursiva(NO *ptInicio){
+    if(ptInicio != NULL){
+        printf("[%d]\n", ptInicio->chave);
+        if(ptInicio->prox !=NULL) imprimeListaRecursiva(ptInicio->prox);
+    } else printf("Fim da lista...\n");
 }
