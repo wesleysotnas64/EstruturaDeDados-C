@@ -150,7 +150,7 @@ void rmvNOInicio(NO **ptInicio, NO **ptFim){//O(1)
     }
 }
 
-void rmvNOFim(NO **ptInicio, NO **ptFim){
+void rmvNOFim(NO **ptInicio, NO **ptFim){//O(n)
     printf("-----------------------\n");
     printf("RMV_FIM. CHAVE = %d\n", (*ptFim)->chave);
     if((*ptInicio) != NULL){
@@ -178,7 +178,7 @@ void rmvNOFim(NO **ptInicio, NO **ptFim){
     }
 }
 
-void rmvNOMeio(int chave, NO **ptInicio){
+void rmvNOMeio(int chave, NO **ptInicio){ //O(n)
     printf("-----------------------\n");
     printf("RMV_MEIO. CHAVE = %d\n", chave);
     if((*ptInicio) != NULL){
@@ -217,7 +217,7 @@ void rmv(int chave, NO **ptInicio, NO **ptFim){
     else rmvNOMeio(chave, &(*ptInicio));
 }
 
-void imprimeListaIterativa(NO *ptInicio){
+void imprimeListaIterativa(NO *ptInicio){//O(n)
     if(ptInicio != NULL){
         NO *ptAux = ptInicio;
         do{
