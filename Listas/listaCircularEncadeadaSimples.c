@@ -8,6 +8,9 @@ struct no{
 };
 
 NO *criaNO(int chave);
+int tamanho(NO *ptInicio);
+int buscar(int chave, NO *ptInicio);
+void addNOInicio(int chave, NO **ptInicio);
 
 int main(){
 
@@ -37,4 +40,38 @@ int tamanho(NO *ptInicio){
         }
     }
     return contador;
+}
+
+int buscar(int chave, NO *ptInicio){ //O(n)
+    if(ptInicio != NULL){
+        NO *ptAux = ptInicio;
+
+        do{
+            if(ptAux->chave == chave) return 1;
+            else ptAux = ptAux->prox;
+        } while(ptAux != ptInicio);
+
+        printf("Chave %d não encontrado!\n", chave);
+        return 0;
+        
+    } else{
+        printf("Chave %d não encontrado!\n", chave);
+        return 0;
+    } 
+}
+
+void addNOInicio(int chave, NO **ptInicio){
+    printf("-----------------------\n");
+    printf("ADD_INICIO. CHAVE = %d\n", chave);
+
+    if(buscar(chave, (*ptInicio)) == 0){
+        NO **no  = malloc(sizeof(NO*));
+        (*no) = criaNO(chave);
+
+        (*no)->prox = (*ptInicio);
+        (*ptInicio) = (*no);
+
+        printf("Chave %d adicionada!\n", chave);
+    } else printf("Chave %d existe! Não adicionado!\n", chave);
+    printf("-----------------------\n");
 }
