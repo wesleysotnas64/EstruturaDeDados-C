@@ -16,6 +16,8 @@ void addNOFim(int chave, NO **ptInicio, NO **ptFim);
 void addNOMeio(int chave, int posicao, NO **ptInicio, NO **ptFim);
 void rmvNOInicio(NO **ptInicio, NO **ptFim);
 void rmvNOFim(NO **ptInicio, NO **ptFim);
+void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim);
+void rmv(int chave, NO **ptInicio, NO **ptFim);
 void imprimeListaIterativa(NO *ptInicio);
 
 int main(){
@@ -37,6 +39,8 @@ int main(){
 
     rmvNOInicio(&ptInicio, &ptFim);
     rmvNOFim(&ptInicio, &ptFim);
+    rmvNOMeio(42, &ptInicio, &ptFim);
+    rmv(99, &ptInicio, &ptFim);
 
     imprimeListaIterativa(ptInicio);
     printf("Tamanho: %d\n", tamanho(ptInicio));
@@ -197,6 +201,49 @@ void rmvNOFim(NO **ptInicio, NO **ptFim){//O(1) pois há o ptAntes
         printf("RMV_FIM FALHOU!\n");
         printf("-----------------------\n");
     } 
+}
+
+//Remove o primeiro 'NO' com a chave igual
+void rmvNOMeio(int chave, NO **ptInicio, NO **ptFim){ //O(n)
+    printf("-----------------------\n");
+    if((*ptInicio) !=  NULL){
+        printf("RMV_MEIO. CHAVE = %d\n", chave);
+
+        //Verificar se a chave existe
+        if(buscar(chave, (*ptInicio)) == 1){
+            NO *aux;
+            aux = (*ptInicio);
+
+            NO *lixo;
+            while(1){
+                if(aux->prox->chave == chave){
+                    lixo = aux->prox;
+                    aux->prox->prox->ante = aux;
+                    aux->prox = aux->prox->prox;
+                    break;
+                } else aux = aux->prox;
+            }
+
+            int miniBuff = lixo->chave;
+            free(lixo);
+
+            printf("Chave %d removida!\n", miniBuff);
+            printf("-----------------------\n");
+        } else{
+            printf("RMV_MEIO FALHOU!\n");
+            printf("-----------------------\n");
+        }
+        
+    } else{
+        printf("RMV_MEIO FALHOU!\n");
+        printf("-----------------------\n");
+    }
+}
+
+void rmv(int chave, NO **ptInicio, NO **ptFim){
+    if(chave == (*ptInicio)->chave) rmvNOInicio(&(*ptInicio), &(*ptFim));
+    else if(chave == (*ptFim)->chave) rmvNOFim(&(*ptInicio), &(*ptFim));
+    else rmvNOMeio(chave, &(*ptInicio), &(*ptFim));
 }
 
 void imprimeListaIterativa(NO *ptInicio){ //O(n)
