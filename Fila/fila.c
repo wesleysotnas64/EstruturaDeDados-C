@@ -11,11 +11,36 @@ struct no{
 NO *criaNO(int chave);
 int tamanho(NO *ptInicio);
 int buscar(int chave, NO *ptInicio);
+void add(int chave, NO **ptInicio, NO **ptFim);
+void rmv(NO **ptInicio, NO **ptFim);
+void imprimeFilaIterativa(NO *ptInicio);
 
 int main(){
 
     NO *ptInicio = NULL;
     NO *ptFim    = NULL;
+
+    printf("TAMANHO = %d\n", tamanho(ptInicio));
+
+    add(1, &ptInicio, &ptFim);
+    add(2, &ptInicio, &ptFim);
+    add(3, &ptInicio, &ptFim);
+    add(4, &ptInicio, &ptFim);
+    add(5, &ptInicio, &ptFim);
+    add(6, &ptInicio, &ptFim);
+
+    imprimeFilaIterativa(ptInicio);
+    printf("TAMANHO = %d\n", tamanho(ptInicio));
+
+    rmv(&ptInicio, &ptFim);
+    rmv(&ptInicio, &ptFim);
+    rmv(&ptInicio, &ptFim);
+    rmv(&ptInicio, &ptFim);
+    rmv(&ptInicio, &ptFim);
+    rmv(&ptInicio, &ptFim);
+
+    imprimeFilaIterativa(ptInicio);
+    printf("TAMANHO = %d\n", tamanho(ptInicio));
 
     return 0;
 }
@@ -59,7 +84,7 @@ int buscar(int chave, NO *ptInicio){ //O(n)
     return 0;
 }
 
-void add(int chave, NO **ptInicio, NO **ptFim){
+void add(int chave, NO **ptInicio, NO **ptFim){//O(1)
     printf("-----------------------\n");
     printf("ADD_FIM_DA_FILA. CHAVE = %d\n", chave);
     
@@ -67,9 +92,52 @@ void add(int chave, NO **ptInicio, NO **ptFim){
         NO **no  = malloc(sizeof(NO*));
         (*no) = criaNO(chave);
 
-        (*no)->ante = (*ptFim);
-        (*ptFim)->prox = (*no);
-        (*ptFim) = (*no);
+        if(tamanho((*ptInicio)) == 0){
+            (*ptInicio) = (*no);
+            (*ptFim) = (*no);
+        } else{
+            (*no)->ante = (*ptFim);
+            (*ptFim)->prox = (*no);
+            (*ptFim) = (*no);
+        }
+
+        printf("Chave %d adicionada!\n", chave);
     } else printf("Chave %d existe! Não adicionado!\n", chave);
     printf("-----------------------\n");
+}
+
+void rmv(NO **ptInicio, NO **ptFim){//O(1)
+    printf("-----------------------\n");
+    if((*ptInicio) != NULL){
+        printf("RMV_INICIO_DA_FILA. CHAVE = %d\n", (*ptInicio)->chave);
+        NO *lixo = (*ptInicio);
+
+        if((*ptInicio) == (*ptFim)){
+            (*ptInicio) == NULL;
+            (*ptFim) == NULL;
+        } else{
+            (*ptInicio) = (*ptInicio)->prox;
+            (*ptInicio)->ante = NULL;
+        }
+
+        int miniBuff = lixo->chave;
+        free(lixo);
+
+        printf("Chave %d removida!\n", miniBuff);
+        printf("-----------------------\n");
+    } else{
+        printf("RMV FALHOU!\n");
+        printf("-----------------------\n");
+    }
+}
+
+void imprimeFilaIterativa(NO *ptInicio){//O(n)
+    if(ptInicio != NULL){
+        NO *ptAux = ptInicio;
+        do{
+            printf("[%2d]\n",ptAux->chave);
+            ptAux = ptAux->prox;
+            if(ptAux == NULL) break;
+        }while(1);
+    } 
 }
