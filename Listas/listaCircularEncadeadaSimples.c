@@ -187,7 +187,7 @@ void rmvNOMeio(int chave, NO **ptInicio){ //O(n)
             NO *lixo = (*ptInicio);
             NO *ptAux = (*ptInicio);
 
-            while(1){
+            while(1){ 
                 if(ptAux->prox->chave == chave) break;
                 else ptAux = ptAux->prox;
             }
