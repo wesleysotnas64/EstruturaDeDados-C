@@ -98,8 +98,6 @@ void addNOInicio(int chave, NO **ptInicio, NO **ptFim){ //O(1)
             (*ptFim)->prox = (*ptInicio);
         }
 
-        
-
         printf("Chave %d adicionada!\n", chave);
     } else printf("Chave %d existe! Não adicionado!\n", chave);
     printf("-----------------------\n");

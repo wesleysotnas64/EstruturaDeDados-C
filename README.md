@@ -1,9 +1,16 @@
 # EstruturaDeDados-C
- Repositório para disponibilização de códigos feitos na disciplina  de estrutura de dados.
+ <p>
+    Repositório para disponibilização de códigos feitos na disciplina  de estrutura de dados.
+ </p>
  
- - [ ] Lista encadeada simples *(em progresso...)*
- - [ ] Lista duplamente encadeada
- - [ ] Lista Circular
- - [ ] Fila
+ <p>
+    Os códigos estão em sua estrutura básica, ou seja, você pode modificá-los para se adaptar de acordo com a sua necessidade.
+ </p>
+ 
+ - [x] Lista encadeada simples
+ - [x] Lista duplamente encadeada
+ - [x] Lista circular simples
+ - [x] Lista circular duplamente encadeada
+ - [ ] Fila *(em progresso...)*
  - [ ] Pilha
  - [ ] Arvore Binária de Busca (ABB)
