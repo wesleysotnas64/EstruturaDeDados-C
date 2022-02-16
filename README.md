@@ -12,5 +12,6 @@
  - [x] Lista circular simples
  - [x] Lista circular duplamente encadeada
  - [x] Fila
- - [ ] Pilha *(em progresso...)*
- - [ ] Arvore Binária de Busca (ABB)
+ - [x] Pilha
+ - [ ] Heap *(em progresso...)*
+
