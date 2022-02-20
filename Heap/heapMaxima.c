@@ -77,7 +77,7 @@ void inicializaHeap(int heap[], int tamanho){
     for(int i = 0; i < tamanho; i++) heap[i] = 0;
 }
 
-void subir(int heap[], int posicao, int quantidade){
+void subir(int heap[], int posicao, int quantidade){ //O(log n)
     printf("-------------------\n");
     printf("SUBIR!\n");
     if(quantidade > 1){
