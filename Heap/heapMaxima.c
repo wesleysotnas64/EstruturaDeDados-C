@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TAMANHO 15
+#define TAMANHO 7
 
 void inserir(int elemento, int heap[], int tamanho, int *quantidade);
 int remover(int heap[], int *quantidade);
@@ -37,10 +37,18 @@ int main(){
 
     imprimeHeap(heap, TAMANHO);
 
-    //int item = remover(heap, &quantidade);
-    //imprimeHeap(heap, TAMANHO);
-    //printf("%d\n", quantidade);
-    //printf("%d\n", item);
+    int item = remover(heap, &quantidade);
+    item = remover(heap, &quantidade);
+    item = remover(heap, &quantidade);
+    item = remover(heap, &quantidade);
+    item = remover(heap, &quantidade);
+    item = remover(heap, &quantidade);
+    item = remover(heap, &quantidade);
+    item = remover(heap, &quantidade);
+
+    imprimeHeap(heap, TAMANHO);
+    printf("%d\n", quantidade);
+    printf("%d\n", item);
 
     return 0;
 }
@@ -66,7 +74,7 @@ int remover(int heap[], int *quantidade){
         else{
             heap[0] = heap[(*quantidade)-1];
             heap[(*quantidade)-1] = 0;
-            //descer()
+            descer(heap, 0, (*quantidade));
         }
         (*quantidade)--;
     }
@@ -119,11 +127,15 @@ void descer(int heap[], int posicao, int quantidade){
         if(filhoEsquerda < quantidade){
             if(filhoDireita < quantidade){
                 if(heap[filhoEsquerda] > heap[filhoDireita]){
-                    troca(heap, posicao, filhoEsquerda);
-                    descer(heap, filhoEsquerda, quantidade);
+                    if(heap[filhoEsquerda] > heap[posicao]){
+                        troca(heap, posicao, filhoEsquerda);
+                        descer(heap, filhoEsquerda, quantidade);
+                    }
                 } else{
-                    troca(heap, posicao, filhoDireita);
-                    descer(heap, filhoDireita, quantidade);
+                    if(heap[filhoDireita] > heap[posicao]){
+                        troca(heap, posicao, filhoDireita);
+                        descer(heap, filhoDireita, quantidade);
+                    }
                 }
             } else{
                 printf("Posicao do filho da direita maior que quantidade!\n");
@@ -153,7 +165,7 @@ int par(int posicao){
 }
 
 void troca(int heap[], int posi1, int posi2){
-    printf("[%d] : %d -> %d\n", heap[posi1], posi1, posi2);
+    printf("TROCA: [%d] POR [%d]\n", heap[posi1], heap[posi2]);
     int aux = heap[posi1];
     heap[posi1] = heap[posi2];
     heap[posi2] = aux;
