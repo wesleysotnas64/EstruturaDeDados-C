@@ -11,6 +11,7 @@ void inserir(int elemento, int heap[], int tamanho, int *quantidade);
 int remover(int heap[], int *quantidade);
 void inicializaHeap(int heap[], int tamanho);
 void subir(int heap[], int posicao, int quantidade);
+void descer(int heap[], int posicao, int quantidade);
 void imprimeHeap(int heap[], int tamanho);
 
 //auxiliar
@@ -105,6 +106,32 @@ void subir(int heap[], int posicao, int quantidade){ //O(log n)
             subir(heap, pai, quantidade);
         } else printf("Na raiz! Subir parou.\n");
     } else printf("Heap vazia!\n");
+    printf("-------------------\n");
+}
+
+void descer(int heap[], int posicao, int quantidade){
+    printf("-------------------\n");
+    printf("DESCER!\n");
+
+    if(quantidade > 1){
+        int filhoEsquerda = (posicao*2)+1;
+        int filhoDireita  = (posicao*2)+2;
+        if(filhoEsquerda < quantidade){
+            if(filhoDireita < quantidade){
+                if(heap[filhoEsquerda] > heap[filhoDireita]){
+                    troca(heap, posicao, filhoEsquerda);
+                    descer(heap, filhoEsquerda, quantidade);
+                } else{
+                    troca(heap, posicao, filhoDireita);
+                    descer(heap, filhoDireita, quantidade);
+                }
+            } else{
+                printf("Posicao do filho da direita maior que quantidade!\n");
+                if(heap[filhoEsquerda] > heap[posicao]) troca(heap, posicao, filhoEsquerda);
+            } 
+        } else printf("Posicao do filho da esquerda maior que quantidade!\n");
+    } else printf("Heap vazia!\n");
+
     printf("-------------------\n");
 }
 
