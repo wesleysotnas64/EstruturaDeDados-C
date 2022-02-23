@@ -20,20 +20,13 @@ int main(){
     NO *raiz = NULL;
 
     adicionar( 4, &raiz);
-    imprimePos(raiz);
     adicionar( 2, &raiz);
-    imprimePos(raiz);
     adicionar( 6, &raiz);
-    imprimePos(raiz);
     adicionar( 1, &raiz);
-    imprimePos(raiz);
     adicionar( 3, &raiz);
-    imprimePos(raiz);
     adicionar( 5, &raiz);
-    imprimePos(raiz);
     adicionar( 7, &raiz);
     imprimePos(raiz);
-
     return 0;
 }
 
@@ -51,23 +44,32 @@ void buscar(int chave, NO *pt, NO **pai, int *encontra){
     printf(":::::::::::::::::::::::::\n");
     printf("INICIO - BUSCAR\n");
     if(pt != NULL){
+        printf("NO atual: %d\n", pt->chave);
         if(chave < pt->chave){
             printf("%d menor que %d\n", chave, pt->chave);
             if(pt->esq != NULL){
+                printf("Existe %d a ESQ de %d\n", pt->esq->chave, pt->chave);
                 (*pai) = pt;
+                printf("Status antes da recursiva\n");
+                printf("Atua: %d\n", (*pai)->chave);
+                printf("proximo: %d\n", (*pai)->esq->chave);
                 buscar(chave, pt->esq, &(*pai), encontra);
             } else{
-                //(*pai) = pt;
+                (*pai) = pt;
                 printf("Chave %d não existe a ESQ de %d\n", chave, (*pai)->chave);
                 (*encontra) = 2;
             }
         } else if( chave > pt->chave){
             printf("%d maior que %d\n", chave, pt->chave);
             if(pt->dir != NULL){
+                printf("Existe %d a ESQ de %d\n", pt->esq->chave, pt->chave);
                 (*pai) = pt;
+                printf("Status antes da recursiva\n");
+                printf("Atua: %d\n", (*pai)->chave);
+                printf("proximo: %d\n", (*pai)->esq->chave);
                 buscar(chave, pt->dir, &(*pai), encontra);
             } else{
-                //(*pai) = pt;
+                (*pai) = pt;
                 printf("Chave %d não existe a DIR de %d\n", chave, (*pai)->chave);
                 (*encontra) = 3;
             }
@@ -127,15 +129,15 @@ void imprimePre(NO *pt){//O(n)
         if(pt->dir == NULL) printf("NULL\n");
         else printf("[%2d]\n", pt->dir->chave);
 
-        if(pt->esq != NULL) imprimeIn(pt->esq);
-        if(pt->dir != NULL) imprimeIn(pt->dir);
+        if(pt->esq != NULL) imprimePre(pt->esq);
+        if(pt->dir != NULL) imprimePre(pt->dir);
     }
 }
 
 void imprimePos(NO *pt){//O(n)
     if(pt != NULL){
-        if(pt->esq != NULL) imprimeIn(pt->esq);
-        if(pt->dir != NULL) imprimeIn(pt->dir);
+        if(pt->esq != NULL) imprimePos(pt->esq);
+        if(pt->dir != NULL) imprimePos(pt->dir);
         
         printf("[%2d] | esq -> ", pt->chave);
         if(pt->esq == NULL) printf("NULL | dir-> ");
