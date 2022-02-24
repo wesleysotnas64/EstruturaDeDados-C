@@ -27,6 +27,8 @@ int main(){
     adicionar( 5, &raiz);
     adicionar( 7, &raiz);
     imprimePos(raiz);
+    adicionar( 7, &raiz);
+    imprimePos(raiz);
     return 0;
 }
 
@@ -51,8 +53,10 @@ void buscar(int chave, NO *pt, NO **pai, int *encontra){
                 printf("Existe %d a ESQ de %d\n", pt->esq->chave, pt->chave);
                 (*pai) = pt;
                 printf("Status antes da recursiva\n");
-                printf("Atua: %d\n", (*pai)->chave);
-                printf("proximo: %d\n", (*pai)->esq->chave);
+                printf("Atual: %d\n", (*pai)->chave);
+                printf("proximo: ");
+                if((*pai)->esq != NULL) printf("%d\n", (*pai)->esq->chave);
+                else printf("NULL\n");
                 buscar(chave, pt->esq, &(*pai), encontra);
             } else{
                 (*pai) = pt;
@@ -62,11 +66,13 @@ void buscar(int chave, NO *pt, NO **pai, int *encontra){
         } else if( chave > pt->chave){
             printf("%d maior que %d\n", chave, pt->chave);
             if(pt->dir != NULL){
-                printf("Existe %d a ESQ de %d\n", pt->esq->chave, pt->chave);
+                printf("Existe %d a DIR de %d\n", pt->dir->chave, pt->chave);
                 (*pai) = pt;
                 printf("Status antes da recursiva\n");
-                printf("Atua: %d\n", (*pai)->chave);
-                printf("proximo: %d\n", (*pai)->esq->chave);
+                printf("Atual: %d\n", (*pai)->chave);
+                printf("proximo: ");
+                if((*pai)->dir != NULL) printf("%d\n", (*pai)->dir->chave);
+                else printf("NULL\n");
                 buscar(chave, pt->dir, &(*pai), encontra);
             } else{
                 (*pai) = pt;
@@ -75,6 +81,7 @@ void buscar(int chave, NO *pt, NO **pai, int *encontra){
             }
         } else{
             printf("Chave %d encontrada!\n", chave);
+            printf("O pai dela é: %d\n", (*pai)->chave);
             (*encontra) = 1;
         } 
     } else{
