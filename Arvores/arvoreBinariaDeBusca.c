@@ -12,9 +12,8 @@ NO *criaNO(int chave);
 void buscar(int chave, NO *pt, NO **pai, int *encontra);
 void adicionar(int chave, NO **pt);
 void remover(int chave, NO **pt);
-
-
-
+void menor(NO *pt, NO **substituto);
+void maior(NO *pt, NO **substituto);
 void imprimeIn(NO *pt);
 void imprimePre(NO *pt);
 void imprimePos(NO *pt);
@@ -28,11 +27,12 @@ int main(){
     adicionar(60, &raiz);
     adicionar(10, &raiz);
     adicionar(30, &raiz);
+    adicionar(25, &raiz);
     adicionar(50, &raiz);
     adicionar(70, &raiz);
     imprimePos(raiz);
 
-    remover(50, &raiz);
+    remover(20, &raiz);
     imprimePos(raiz);
     return 0;
 }
@@ -132,7 +132,7 @@ void remover(int chave, NO **pt){
         NO *lixo;
         if(chave < pai->chave){//Se a chave estiver a esquerda do pai
             lixo = pai->esq;
-            //Agora os 3 Casos do NO a ser removido: tem 0, 1 ou 2 filhos
+            //Agora os 3 Casos do NO a ser removido: Se tem 0, 1 ou 2 filhos
             if(lixo->esq == NULL && lixo->dir == NULL){// É um NO folha. 0 filhos.
                 pai->esq = NULL;
                 free(lixo);
@@ -145,10 +145,43 @@ void remover(int chave, NO **pt){
                     free(lixo);
                 }
             } else{//Tem 2 filhos.
+                //Opta por substituir pelo maior a esquerda ou o menor a direita
+                //MENOR A DIREITA
+                NO *substituto      = lixo->dir;
+                NO *paiDoSubstituto = lixo;
 
+                printf("\nooooooooooooooooooooooooo\n");
+                printf("BUSCANDO O MENOR A DIREITA DE %d!\n", lixo->chave);
+
+                menor(lixo->dir, &substituto);
+
+                printf("Substituto: %d", substituto->chave);
+                printf("\nooooooooooooooooooooooooo\n\n");
+
+                buscar(substituto->chave, lixo, &paiDoSubstituto, &encontra);
+
+                if(substituto->dir == NULL){ //Se o substituto for folha
+                    if(substituto->chave < paiDoSubstituto->chave) paiDoSubstituto->esq = NULL;
+                    else paiDoSubstituto->dir = NULL;
+                    
+                    substituto->esq = lixo->esq;
+                    substituto->dir = lixo->dir;
+
+                    pai->esq = substituto;
+                    
+                } else{ //Se o substituto tem filho na direita
+                    if(substituto->chave < paiDoSubstituto->chave) paiDoSubstituto->esq = substituto->dir;
+                    else paiDoSubstituto->dir = substituto->dir;
+                    
+                    substituto->esq = lixo->esq;
+                    substituto->dir = lixo->dir;
+
+                    pai->esq = substituto;
+                    
+                }
             }
         } else{ //Se a chave estiver a direita do pai (Desconsidera igualdade de chave. chaves são únicas)
-            //Agora os 3 Casos do NO a ser removido: tem 0, 1 ou 2 filhos
+            //Agora os 3 Casos do NO a ser removido: Se tem 0, 1 ou 2 filhos
 
         }
     } else printf("Chave %d inexistente!\n", chave);
@@ -157,10 +190,17 @@ void remover(int chave, NO **pt){
     printf("-------------------------\n\n");
 }
 
-void menor(NO *pt, NO **pai){//Encontra o menor elemento da arvore e informa o pai;
+void menor(NO *pt, NO **substituto){//retorna a menor chave
     if(pt->esq != NULL){
-        (*pai) = pt;
-        menor(pt->esq, &(*pai));
+        (*substituto) = pt->esq;
+        menor(pt->esq, &(*substituto));
+    }
+}
+
+void maior(NO *pt, NO **substituto){//retorna a maior chave
+    if(pt->dir != NULL){
+        (*substituto) = pt->dir;
+        menor(pt->dir, &(*substituto));
     }
 }
 
