@@ -11,6 +11,10 @@ struct no{
 NO *criaNO(int chave);
 void buscar(int chave, NO *pt, NO **pai, int *encontra);
 void adicionar(int chave, NO **pt);
+void remover(int chave, NO **pt);
+
+
+
 void imprimeIn(NO *pt);
 void imprimePre(NO *pt);
 void imprimePos(NO *pt);
@@ -19,15 +23,16 @@ int main(){
 
     NO *raiz = NULL;
 
-    adicionar( 4, &raiz);
-    adicionar( 2, &raiz);
-    adicionar( 6, &raiz);
-    adicionar( 1, &raiz);
-    adicionar( 3, &raiz);
-    adicionar( 5, &raiz);
-    adicionar( 7, &raiz);
+    adicionar(40, &raiz);
+    adicionar(20, &raiz);
+    adicionar(60, &raiz);
+    adicionar(10, &raiz);
+    adicionar(30, &raiz);
+    adicionar(50, &raiz);
+    adicionar(70, &raiz);
     imprimePos(raiz);
-    adicionar( 7, &raiz);
+
+    remover(50, &raiz);
     imprimePos(raiz);
     return 0;
 }
@@ -112,6 +117,51 @@ void adicionar(int chave, NO **pt){
     } else printf("Chave [%d] existe!\n", chave);
     printf("FIM - ADICIONAR\n");
     printf("+++++++++++++++++++++++++\n\n");
+}
+
+void remover(int chave, NO **pt){
+    printf("\n-------------------------\n");
+    printf("INICIO - REMOVER %d\n", chave);
+
+    NO *pai = (*pt);
+    int encontra = 0;
+
+    buscar(chave, (*pt), &pai, &encontra);
+
+    if(encontra == 1){
+        NO *lixo;
+        if(chave < pai->chave){//Se a chave estiver a esquerda do pai
+            lixo = pai->esq;
+            //Agora os 3 Casos do NO a ser removido: tem 0, 1 ou 2 filhos
+            if(lixo->esq == NULL && lixo->dir == NULL){// É um NO folha. 0 filhos.
+                pai->esq = NULL;
+                free(lixo);
+            } else if(lixo->esq == NULL || lixo->dir == NULL){ //Não é folha. Pelo menos um filho.
+                if(lixo->esq != NULL && lixo->dir == NULL){//Um filho na esquerda
+                    pai->esq = lixo->esq;
+                    free(lixo);
+                } else if(lixo->esq == NULL && lixo->dir != NULL){//Um filho na direita
+                    pai->esq = lixo->dir;
+                    free(lixo);
+                }
+            } else{//Tem 2 filhos.
+
+            }
+        } else{ //Se a chave estiver a direita do pai (Desconsidera igualdade de chave. chaves são únicas)
+            //Agora os 3 Casos do NO a ser removido: tem 0, 1 ou 2 filhos
+
+        }
+    } else printf("Chave %d inexistente!\n", chave);
+
+    printf("FIM - REMOVER\n");
+    printf("-------------------------\n\n");
+}
+
+void menor(NO *pt, NO **pai){//Encontra o menor elemento da arvore e informa o pai;
+    if(pt->esq != NULL){
+        (*pai) = pt;
+        menor(pt->esq, &(*pai));
+    }
 }
 
 void imprimeIn(NO *pt){//O(n)
