@@ -1,4 +1,4 @@
-# EstruturaDeDados-C
+# EstruturaDeDados-C :game_die: :game_die: :game_die:
  <p>
     Repositório para disponibilização de códigos feitos na disciplina  de estrutura de dados.
  </p>
