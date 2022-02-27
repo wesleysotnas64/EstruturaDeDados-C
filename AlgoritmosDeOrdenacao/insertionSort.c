@@ -4,7 +4,6 @@
 #define TAMANHO 10
 
 void insertionSort(int vetor[], int tamanho);
-void troca(int vetor[], int posi1, int posi2);
 void imprimeVetor(int vetor[], int tamanho);
 
 int main(){
@@ -32,15 +31,18 @@ int main(){
 
 
 void insertionSort(int vetor[], int tamanho){//O(n^2)
-    for(int i = 0; i < tamanho; i++){
-        for(int j = 0; j < tamanho-i-1; j++) if(vetor[j] > vetor[j+1]) troca(vetor, j, j+1);
+    int aux;
+    for(int i = 1; i < tamanho; i++){
+        aux = vetor[i];
+        for(int j = i; j > 0; j--){
+            if(aux < vetor[j-1]){
+                vetor[j] = vetor[j-1];
+            } else{
+                vetor[j] = aux;
+                break;
+            } 
+        } 
     }
-}
-
-void troca(int vetor[], int posi1, int posi2){ //O(1)
-    int aux = vetor[posi1];
-    vetor[posi1] = vetor[posi2];
-    vetor[posi2] = aux;
 }
 
 void imprimeVetor(int vetor[], int tamanho){ //O(n)
