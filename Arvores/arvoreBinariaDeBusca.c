@@ -27,12 +27,16 @@ int main(){
     adicionar(60, &raiz);
     adicionar(10, &raiz);
     adicionar(30, &raiz);
-    adicionar(25, &raiz);
     adicionar(50, &raiz);
     adicionar(70, &raiz);
+    adicionar(15, &raiz);
+    adicionar(25, &raiz);
+    adicionar(55, &raiz);
+    adicionar(65, &raiz);
     imprimePos(raiz);
 
-    remover(20, &raiz);
+    remover(65, &raiz);
+    remover(15, &raiz);
     imprimePos(raiz);
     return 0;
 }
@@ -181,8 +185,55 @@ void remover(int chave, NO **pt){
                 }
             }
         } else{ //Se a chave estiver a direita do pai (Desconsidera igualdade de chave. chaves são únicas)
+            lixo = pai->dir;
             //Agora os 3 Casos do NO a ser removido: Se tem 0, 1 ou 2 filhos
+            if(lixo->esq == NULL && lixo->dir == NULL){// É um NO folha. 0 filhos.
+                pai->dir = NULL;
+                free(lixo);
+            } else if(lixo->esq == NULL || lixo->dir == NULL){ //Não é folha. Pelo menos um filho.
+                if(lixo->esq != NULL && lixo->dir == NULL){//Um filho na esquerda
+                    pai->dir = lixo->esq;
+                    free(lixo);
+                } else if(lixo->esq == NULL && lixo->dir != NULL){//Um filho na direita
+                    pai->dir = lixo->dir;
+                    free(lixo);
+                }
+            } else{//Tem 2 filhos.
+                //Opta por substituir pelo maior a esquerda ou o menor a direita
+                //MAIOR A ESQUERDA
+                NO *substituto      = lixo->esq;
+                NO *paiDoSubstituto = lixo;
 
+                printf("\nooooooooooooooooooooooooo\n");
+                printf("BUSCANDO O MAIOR A ESQUERDA DE %d!\n", lixo->chave);
+
+                maior(lixo->esq, &substituto);
+
+                printf("Substituto: %d", substituto->chave);
+                printf("\nooooooooooooooooooooooooo\n\n");
+
+                buscar(substituto->chave, lixo, &paiDoSubstituto, &encontra);
+
+                if(substituto->esq == NULL){ //Se o substituto for folha
+                    if(substituto->chave < paiDoSubstituto->chave) paiDoSubstituto->esq = NULL;
+                    else paiDoSubstituto->dir = NULL;
+                    
+                    substituto->esq = lixo->esq;
+                    substituto->dir = lixo->dir;
+
+                    pai->dir = substituto;
+                    
+                } else{ //Se o substituto tem filho na esquerda
+                    if(substituto->chave < paiDoSubstituto->chave) paiDoSubstituto->esq = substituto->esq;
+                    else paiDoSubstituto->dir = substituto->esq;
+                    
+                    substituto->esq = lixo->esq;
+                    substituto->dir = lixo->dir;
+
+                    pai->dir = substituto;
+                    
+                }
+            }
         }
     } else printf("Chave %d inexistente!\n", chave);
 
@@ -200,7 +251,7 @@ void menor(NO *pt, NO **substituto){//retorna a menor chave
 void maior(NO *pt, NO **substituto){//retorna a maior chave
     if(pt->dir != NULL){
         (*substituto) = pt->dir;
-        menor(pt->dir, &(*substituto));
+        maior(pt->dir, &(*substituto));
     }
 }
 
@@ -237,7 +288,7 @@ void imprimePos(NO *pt){//O(n)
         if(pt->dir != NULL) imprimePos(pt->dir);
         
         printf("[%2d] | esq -> ", pt->chave);
-        if(pt->esq == NULL) printf("NULL | dir-> ");
+        if(pt->esq == NULL) printf("NULL | dir -> ");
         else printf("[%2d] | dir -> ", pt->esq->chave);
         if(pt->dir == NULL) printf("NULL\n");
         else printf("[%2d]\n", pt->dir->chave);
