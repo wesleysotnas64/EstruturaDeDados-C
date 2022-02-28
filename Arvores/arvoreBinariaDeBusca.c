@@ -35,8 +35,8 @@ int main(){
     adicionar(65, &raiz);
     imprimePos(raiz);
 
-    remover(65, &raiz);
-    remover(15, &raiz);
+    remover(70, &raiz);
+
     imprimePos(raiz);
     return 0;
 }
