@@ -1,6 +1,6 @@
 # EstruturaDeDados-C :game_die: :game_die: :game_die:
  <p>
-    Repositório para disponibilização de códigos feitos na disciplina  de estrutura de dados.
+    Repositório para disponibilização de códigos feitos na disciplina de <b>Estrutura de Dados</b>.
  </p>
  
  <p>
@@ -14,8 +14,11 @@
  - [x] Lista circular duplamente encadeada
  - [x] Fila
  - [x] Pilha
- - [x] Heap 
- - [ ] Arvire binária de busca *(em progresso...)*
+ - [x] Heap Máxima
+ - [ ] Heap Mínima *(em progresso...)*
+ - [x] Arvore binária de busca 
+ - [ ] Arvore AVL *(em progresso...)*
 
  ## Algoritmos de Ordenação
  - [x] Bubble Sort
+ - [x] Insertion Sort
