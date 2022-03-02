@@ -25,20 +25,19 @@ int main(){
     adicionar(40, &raiz);
     adicionar(20, &raiz);
     adicionar(60, &raiz);
-    //adicionar(10, &raiz);
-    //adicionar(30, &raiz);
-    //adicionar(50, &raiz);
-    //adicionar(70, &raiz);
-    //adicionar(15, &raiz);
-    //adicionar(25, &raiz);
-    //adicionar(55, &raiz);
-    //adicionar(65, &raiz);
+    adicionar(10, &raiz);
+    adicionar(30, &raiz);
+    adicionar(50, &raiz);
+    adicionar(70, &raiz);
+    adicionar(15, &raiz);
+    adicionar(25, &raiz);
+    adicionar(55, &raiz);
+    adicionar(65, &raiz);
     imprimePos(raiz);
 
-    remover(40, &raiz, raiz);
-
-
-    imprimePos(raiz);
+    //remover(40, &raiz, raiz);
+    //remover(50, &raiz, raiz);
+    //imprimePos(raiz);
     return 0;
 }
 
@@ -98,7 +97,6 @@ void buscar(int chave, NO *pt, NO **pai, int *encontra){
         printf("Arvore vazia!\n");
         (*encontra) = 0;
     }
-
     printf("FIM - BUSCAR\n");
     printf(":::::::::::::::::::::::::\n"); 
 }
@@ -136,14 +134,17 @@ void remover(int chave, NO **pt, NO *raiz){
     if(encontra == 1){
         NO *lixo;
         if(chave == raiz->chave){//Caso especial. Separar para ficar mais fácil.
+        printf("É a raiz!\n");
             lixo = (*pt);
             if(lixo->esq == NULL && lixo->dir == NULL){ //0 filhos
+                printf("RAIZ 0 FILHOS!\n");
                 (*pt) = NULL;
-            } else if(lixo->esq != NULL || lixo->dir != NULL){//1 filho pelo menos
+            } else if(lixo->esq == NULL || lixo->dir == NULL){//1 filho pelo menos
+                printf("RAIZ 1 FILHOS!\n");
                 if(lixo->esq != NULL) (*pt) = lixo->esq;
                 else (*pt) = lixo->dir;
             } else{//2 filhos
-                //Opta por substituir pelo 'maior a esquerda' OU o 'menor a direita'
+            printf("RAIZ 2 FILHOS!\n");
                 //MENOR A DIREITA
                 NO *substituto      = lixo->dir;
                 NO *paiDoSubstituto = lixo;
@@ -179,6 +180,7 @@ void remover(int chave, NO **pt, NO *raiz){
             }
             
         } else{
+            printf("Não é a raiz\n");
             if(chave < pai->chave){//Se a chave estiver a esquerda do pai
                 lixo = pai->esq;
                 //Agora os 3 Casos do NO a ser removido: Se tem 0, 1 ou 2 filhos
@@ -289,14 +291,14 @@ void remover(int chave, NO **pt, NO *raiz){
     printf("-------------------------\n\n");
 }
 
-void menor(NO *pt, NO **substituto){//retorna a menor chave
+void menor(NO *pt, NO **substituto){
     if(pt->esq != NULL){
         (*substituto) = pt->esq;
         menor(pt->esq, &(*substituto));
     }
 }
 
-void maior(NO *pt, NO **substituto){//retorna a maior chave
+void maior(NO *pt, NO **substituto){
     if(pt->dir != NULL){
         (*substituto) = pt->dir;
         maior(pt->dir, &(*substituto));
